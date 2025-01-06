@@ -1,0 +1,58 @@
+Summary of DLIS/RP66 Specifications 
+----------------------------------
+
+0. Introduction:
+The Digital Log Interchange Standard (DLIS) is an American Petroleum Institute Recommended Practice (API RP 66 Version 1.00) for the interchange of digital log data to meet the evolving needs of new measurement systems and technologies.  
+It is superior to existing formats in three basic ways:
+- It provides for better identification of data.
+- It provides a general method for representing complex forms of data,including arrays and textual strings.
+- It provides a method for representing channel data according to their dynamic requirements, including variable-length frames and multiple
+  types of frames -- which differ by index, sampling rate, and chanels  intermixed in the same file.
+
+
+1.Purpose and Aim
+The Digital Log Interchange Standard (DLIS) was developed to address the limitations of older formats in handling well log data. It introduces new mechanisms to efficiently record and exchange data, enabling flexibility and compatibility with evolving logging technologies and client needs.
+
+2. Data Organization
+DLIS defines data on two levels:
+
+-Logical Format: 
+The logical organization ensures that data is stored and retrieved in meaningful units, regardless of the underlying physical storage medium. Key elements include:
+Logical Records: These are groups of semantically related data (e.g., measurements from a specific tool pass).
+Logical Files: Collections of Logical Records, representing complete datasets like a single well log.
+Each Logical Record can have multiple segments to handle large datasets without worrying about physical storage boundaries. For example, a resistivity log spanning a 10,000 ft well can be split into segments, making retrieval efficient.
+
+-Physical Format: 
+The physical organization specifies how data is laid out on storage media (e.g., magnetic tapes, disks).
+
+Industry-Standard Magnetic Tapes: Data is organized using physical tape marks and headers for easy navigation.
+Disks: Files are stored as sequential records, ensuring compatibility with modern file systems.
+Binding Logical to Physical:
+The Logical and Physical Formats are loosely bound, allowing data to be transferred across different media types without losing integrity. For example, a DLIS dataset from a tape can be moved to a disk without altering its logical organization.
+
+Example Use Case:
+Consider transferring a DLIS file from a 9-track magnetic tape to a modern hard disk:
+Logical Records remain intact, preserving the data hierarchy.
+Physical headers and checksums ensure the data is error-free after the transfer.
+This dual-level organization makes DLIS adaptable for evolving data storage technologies, ensuring long-term usability and accessibility.
+
+3.Enhanced Data Capabilities
+DLIS includes mechanisms for:
+
+- Frame Data: Compact storage of measurement values.
+- Static and Transient Information: Captures contextual and dynamic data changes during logging.
+- Multiple Frame Types: Supports diverse data sampling rates and formats within a single file for flexibility.
+- Update Objects: Allows parameter changes during a log run to be recorded for better data accuracy.
+
+4. Logical Record Syntax
+Logical Records encapsulate coherent data units, enabling efficient mapping to physical storage. They support:
+- Explicitly Formatted Records (EFLR): Well-defined, hierarchical structures for storing attributes and objects.
+- Indirectly Formatted Records: Used for special cases requiring unique encoding.
+
+
+5. Key Features and Innovations
+
+- Origin Information: Uniquely identifies and organizes data channels across logging runs.
+- Encryption Support: Provides options for securing sensitive data.
+- Checksum and Validation: Improves reliability by enabling data recovery and error detection.
+- Scalability: The structure allows for extensions, supporting future logging technologies and use cases.
