@@ -1,7 +1,7 @@
-# -------------------------------------------------------------------------------------
-# Python script to replace LAS Null values in multiple LAS files  e.g. -9999 into -999.25
-# take input CWLS LAS format from "curr_dir" and save the edited in the "output_dir"  
-#--------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
+# Python script to replace LAS Null values in multiple LAS files  e.g. -9999 into -999.25 in the Header and data_section ie. after ~A. 
+# take input CWLS LAS format from "curr_dir"  and save the edited in the "output_dir"  
+#--------------------------------------------------------------------------------------------------------------------------------
 import glob
 import os
 import ntpath
@@ -29,7 +29,7 @@ if not output_dir:
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-# Regular expression pattern to match various forms of '-9999' and its decimal variants
+# Regex pattern to match various forms of '-9999' and its decimal variants
 pattern = r"-9999(\.0+)?(\.000+)?(\.0000+)?"
 
 # Process each LAS file in the directory
@@ -49,7 +49,7 @@ for f in glob.glob(os.path.join(curr_dir, "*.las")):
                     is_data_section = False
 
                 # Replace matching values for all occurrences of '-9999' (in header or data section)
-                # Use regular expression to replace all versions of '-9999' with '-999.25'
+                # Use Regex to replace all versions of '-9999' with '-999.25'
                 line = re.sub(pattern, "-999.25", line)
 
                 # Write the (possibly modified) line to the output file
