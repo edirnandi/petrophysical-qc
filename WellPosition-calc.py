@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+from tkinter import Tk, filedialog
 
 def minimum_curvature(md1, inc1, azi1, md2, inc2, azi2):
     """
@@ -35,8 +37,56 @@ def minimum_curvature(md1, inc1, azi1, md2, inc2, azi2):
     
     return dN, dE, dTVD
 
-# Example usage:
-md1, inc1, azi1 = 1000, 28, 54
-md2, inc2, azi2 = 1100, 32, 57
-dN, dE, dTVD = minimum_curvature(md1, inc1, azi1, md2, inc2, azi2)
-print(f"North: {dN:.6f} ft, East: {dE:.6f} ft, TVD: {dTVD:.6f} ft")
+def process_well_survey():
+    # Open file dialog to select Excel file
+    Tk().withdraw()
+    file_path = filedialog.askopenfilename(title="Select Well Survey Excel File", filetypes=[("Excel files", "*.xlsx;*.xls")])
+    
+    if not file_path:
+        print("No file selected.")
+        return
+    
+    # Read Excel file
+    df = pd.read_excel(file_path)
+    
+    # Ensure necessary columns exist
+    required_columns = {"Wellname", "MD (ft)", "Inclination (degree)", "Azimuth (degree)"}
+    if not required_columns.issubset(df.columns):
+        print("Missing required columns in the Excel file.")
+        return
+    
+    # Sort by Wellname and MD
+    df = df.sort_values(by=["Wellname", "MD (ft)"])
+    
+    # Initialize output lists
+    northing, easting, tvd = [0], [0], [0]
+    
+    for i in range(1, len(df)):
+        if df.iloc[i]["Wellname"] == df.iloc[i-1]["Wellname"]:
+            dN, dE, dTVD = minimum_curvature(
+                df.iloc[i-1]["MD (ft)"], df.iloc[i-1]["Inclination (degree)"], df.iloc[i-1]["Azimuth (degree)"],
+                df.iloc[i]["MD (ft)"], df.iloc[i]["Inclination (degree)"], df.iloc[i]["Azimuth (degree)"]
+            )
+            northing.append(northing[-1] + dN)
+            easting.append(easting[-1] + dE)
+            tvd.append(tvd[-1] + dTVD)
+        else:
+            northing.append(0)
+            easting.append(0)
+            tvd.append(0)
+    
+    # Add computed values to DataFrame
+    df["Northing (ft)"] = northing
+    df["Easting (ft)"] = easting
+    df["TVD (ft)"] = tvd
+    
+    # Save to Excel
+    output_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")], title="Save Output File")
+    if output_path:
+        df.to_excel(output_path, index=False, engine='openpyxl')
+        print(f"File saved: {output_path}")
+    else:
+        print("File not saved.")
+
+if __name__ == "__main__":
+    process_well_survey()
