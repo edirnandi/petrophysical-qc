@@ -1,3 +1,16 @@
+# "Computer Vision-Based Well Log Digitization"
+# An Open-Source Python Utility for Converting Raster Well Logs into LAS 2.0 Format. The initiative explores opportunities to improve the accessibility and reusability of historical well log data through practical automation.
+#
+# MIT License. 
+# Acknowledgment (Developed through the practical application of subsurface domain knowledge, Python programming, computer vision techniques, data accessibility, and learning. The project is shared with the subsurface community in the spirit of open-source collaboration, continuous learning, and knowledge sharing.)
+#
+# Disclaimer
+# This software is provided "AS IS", without warranty of any kind, express or implied. Users are responsible for validating the accuracy and suitability of the generated data for their intended applications.
+# Author: Edy Irnandi Sudjana
+# Project: Computer Vision-Based Well Log Digitization
+# Initial Release: Version 1.0
+#License: MIT
+
 import os
 import tkinter as tk
 from tkinter import filedialog, simpledialog, messagebox
